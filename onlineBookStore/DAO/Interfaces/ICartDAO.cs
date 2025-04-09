@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace onlineBookStore.DAO.Interfaces
 {
-    internal interface ICartDAO
+    using onlineBookStore.Entity;
+    
+
+    public interface ICartDAO
     {
+        bool AddToCart(CartItem item);
+        bool UpdateCartQuantity(int userId, int bookId, int quantity);
+        bool RemoveFromCart(int userId, int bookId);
+        List<CartItem> GetCartItemsByUser(int userId);
+        bool ClearCart(int userId);
     }
+
 }

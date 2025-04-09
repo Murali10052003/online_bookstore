@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace onlineBookStore.DAO.Interfaces
 {
-    public interface IReviewDAO
+    public interface IGenreDAO
     {
-        bool AddReview(Review review);
-        List<Review> GetReviewsByBookId(int bookId);
+        List<Genre> GetAllGenres();
+        Genre GetGenreById(int genreId);
+        bool AddGenre(string genreName); // Optional (Admin)
     }
+
 }

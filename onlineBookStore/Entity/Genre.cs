@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace onlineBookStore.Entity
 {
-    internal class Genre
+    public class Genre
     {
+        public int GenreID { get; set; }
+        public string GenreName { get; set; }
     }
+
 }

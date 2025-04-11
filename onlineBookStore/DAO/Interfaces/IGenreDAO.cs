@@ -11,7 +11,7 @@ namespace onlineBookStore.DAO.Interfaces
     {
         List<Genre> GetAllGenres();
         Genre GetGenreById(int genreId);
-        bool AddGenre(string genreName); // Optional (Admin)
+       
     }
 
 }

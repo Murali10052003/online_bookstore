@@ -11,10 +11,9 @@ namespace onlineBookStore.DAO.Interfaces
 
     public interface ICartDAO
     {
-        bool AddToCart(CartItem item);
-        bool UpdateCartQuantity(int userId, int bookId, int quantity);
+        bool AddOrUpdateCartItem(int userId, int bookId, int quantity);
         bool RemoveFromCart(int userId, int bookId);
-        List<CartItem> GetCartItemsByUser(int userId);
+        List<Cart> GetCartItemsByUser(int userId);
         bool ClearCart(int userId);
     }
 

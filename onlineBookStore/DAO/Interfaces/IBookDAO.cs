@@ -11,8 +11,8 @@ namespace onlineBookStore.DAO.Interfaces
     {
         List<Book> GetBooksByGenre(int genreId);
         List<Book> SearchBooksByTitle(string keyword);
-        Book GetBookById(int bookId);
-        List<Book> GetAllBooks();
-        bool UpdateBookStock(int bookId, int newStock); // Admin
+        Book GetBookById(int bookId);//check
+        List<Book> GetAllBooks();//check
+         // Admin
     }
 }

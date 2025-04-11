@@ -11,7 +11,7 @@ namespace onlineBookStore.DAO.Interfaces
     {
         bool Register(User user);
         User Login(string email, string password);
-        User GetUserById(int userId);
-        bool IsEmailExists(string email);
+        //User GetUserById(int userId);
+        //bool IsEmailExists(string email);
     }
 }

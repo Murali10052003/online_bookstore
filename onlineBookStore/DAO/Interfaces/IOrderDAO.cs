@@ -12,7 +12,6 @@ namespace onlineBookStore.DAO.Interfaces
         int PlaceOrder(Order order, List<OrderItem> orderItems);
         List<Order> GetOrdersByUser(int userId);
         List<OrderItem> GetOrderItems(int orderId);
-        List<Order> GetAllOrders(); // Admin
-        bool UpdateOrderStatus(int orderId, string status); // Admin
+        
     }
 }

@@ -1,4 +1,4 @@
-﻿//using System.Data.SqlClient;
+//using System.Data.SqlClient;
 //using onlineBookStore.Entity;
 //using onlineBookStore.Util;
 //using onlineBookStore.DAO.Interfaces;
@@ -83,14 +83,14 @@
 //        return cartItems;
 //    }
 
-//    public bool ClearCart(int userId)
-//    {
-//        using (SqlConnection conn = DBConnectionUtil.GetConnection())
-//        {
-//            string query = "DELETE FROM Cart WHERE UserID = @UserID";
-//            SqlCommand cmd = new SqlCommand(query, conn);
-//            cmd.Parameters.AddWithValue("@UserID", userId);
-//            return cmd.ExecuteNonQuery() > 0;
-//        }
-//    }
-//}
+    public bool ClearCart(int userId)
+    {
+        using (SqlConnection conn = DBConnectionUtil.GetConnection())
+        {
+            string query = "DELETE FROM Cart WHERE UserID = @UserID";
+            SqlCommand cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@UserID", userId);
+            return cmd.ExecuteNonQuery() > 0;
+        }
+    }
+}

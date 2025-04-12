@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         // Use your server/DB info
-        string connectionString = "Data Source=YOUR_SERVER;Initial Catalog=OnlineBookStore;Integrated Security=True;";
+        string connectionString = DbPropertyUtil.GetConnectionString();
         var dbUtil = new DbConnectionUtil(connectionString);
         var userDAO = new UserDAOImpl(dbUtil);
 

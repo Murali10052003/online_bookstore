@@ -1,0 +1,31 @@
+INSERT INTO Genres (GenreName) VALUES
+('Fiction'),
+('Science'),
+('Mystery'),
+('Romance'),
+('Self-Help'),
+('Fantasy'),
+('Biography'),
+('Technology');
+
+INSERT INTO Books (Title, Author, Price, Stock, GenreID) VALUES
+('The Alchemist', 'Paulo Coelho', 299.00, 20, 1),
+('Brief History of Time', 'Stephen Hawking', 499.00, 10, 2),
+('Sherlock Holmes', 'Arthur Conan Doyle', 350.00, 15, 3),
+('The Notebook', 'Nicholas Sparks', 280.00, 8, 4),
+('Atomic Habits', 'James Clear', 450.00, 25, 5),
+('Harry Potter and the Sorcerer''s Stone', 'J.K. Rowling', 399.00, 30, 6),
+('Steve Jobs', 'Walter Isaacson', 600.00, 5, 7),
+('Clean Code', 'Robert C. Martin', 550.00, 12, 8);
+
+INSERT INTO Books (Title, Author, Price, Stock, GenreID) VALUES
+('1984', 'George Orwell', 320.00, 18, 1),
+('Sapiens: A Brief History of Humankind', 'Yuval Noah Harari', 480.00, 22, 2),
+('The Girl with the Dragon Tattoo', 'Stieg Larsson', 370.00, 14, 3),
+('Me Before You', 'Jojo Moyes', 300.00, 10, 4),
+('The Power of Habit', 'Charles Duhigg', 460.00, 20, 5),
+('Harry Potter and the Chamber of Secrets', 'J.K. Rowling', 410.00, 25, 6),
+('Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future', 'Ashlee Vance', 580.00, 6, 7),
+('The Pragmatic Programmer', 'Andrew Hunt & David Thomas', 570.00, 9, 8),
+('To Kill a Mockingbird', 'Harper Lee', 340.00, 16, 1),
+('The Theory of Everything', 'Stephen Hawking', 490.00, 11, 2);

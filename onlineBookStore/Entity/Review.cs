@@ -14,6 +14,8 @@ namespace onlineBookStore.Entity
         public int Rating { get; set; } // 1 to 5
         public string ReviewText { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string Username { get; set; }
+
     }
 
 }

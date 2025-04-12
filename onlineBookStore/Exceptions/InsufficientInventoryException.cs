@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace onlineBookStore.Exceptions
 {
-    internal class InsufficientInventoryException
+    public class InsufficientInventoryException : Exception
     {
+     public InsufficientInventoryException() { }
+
+    public InsufficientInventoryException(string message) : base(message) { }
+        
     }
 }

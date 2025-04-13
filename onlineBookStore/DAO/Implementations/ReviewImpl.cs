@@ -5,11 +5,11 @@ using onlineBookStore.Util;
 using onlineBookStore.Util;
 using System.Collections.Generic;
 
-public class ReviewDAOImpl : IReviewDAO
+public class ReviewImpl : IReviewDAO
 {
     private readonly DbConnectionUtil _dbUtil;
 
-    public ReviewDAOImpl(DbConnectionUtil dbUtil)
+    public ReviewImpl(DbConnectionUtil dbUtil)
     {
         _dbUtil = dbUtil;
     }

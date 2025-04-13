@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using onlineBookStore.DAO.Interfaces;
 using onlineBookStore.Entity;
 using onlineBookStore.Util;

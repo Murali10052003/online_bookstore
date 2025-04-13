@@ -1,94 +1,114 @@
-//using System.Data.SqlClient;
-//using onlineBookStore.Entity;
-//using onlineBookStore.Util;
-//using onlineBookStore.DAO.Interfaces;
+using Microsoft.Data.SqlClient;
+using onlineBookStore.DAO.Interfaces;
+using onlineBookStore.Util;
+using onlineBookStore.Entity;
 
+using System.Collections.Generic;
 
+public class CartDAOImpl : ICartDAO
+{
+    private readonly DbConnectionUtil _dbUtil;
 
-//public class CartDAOImpl : ICartDAO
-//{
-//    public bool AddOrUpdateCartItem(int userId, int bookId, int quantity)
-//    {
-//        using (SqlConnection conn = DBConnectionUtil.GetConnection())
-//        {
-//            // Check if item already exists in cart
-//            string checkQuery = "SELECT Quantity FROM Cart WHERE UserID = @UserID AND BookID = @BookID";
-//            SqlCommand checkCmd = new SqlCommand(checkQuery, conn);
-//            checkCmd.Parameters.AddWithValue("@UserID", userId);
-//            checkCmd.Parameters.AddWithValue("@BookID", bookId);
-//            object result = checkCmd.ExecuteScalar();
+    public CartDAOImpl(DbConnectionUtil dbUtil)
+    {
+        _dbUtil = dbUtil;
+    }
 
-//            if (result != null)
-//            {
-//                // Update existing quantity
-//                int newQuantity = (int)result + quantity;
-//                string updateQuery = "UPDATE Cart SET Quantity = @Quantity WHERE UserID = @UserID AND BookID = @BookID";
-//                SqlCommand updateCmd = new SqlCommand(updateQuery, conn);
-//                updateCmd.Parameters.AddWithValue("@Quantity", newQuantity);
-//                updateCmd.Parameters.AddWithValue("@UserID", userId);
-//                updateCmd.Parameters.AddWithValue("@BookID", bookId);
-//                return updateCmd.ExecuteNonQuery() > 0;
-//            }
-//            else
-//            {
-//                // Insert new item
-//                string insertQuery = "INSERT INTO Cart (UserID, BookID, Quantity) VALUES (@UserID, @BookID, @Quantity)";
-//                SqlCommand insertCmd = new SqlCommand(insertQuery, conn);
-//                insertCmd.Parameters.AddWithValue("@UserID", userId);
-//                insertCmd.Parameters.AddWithValue("@BookID", bookId);
-//                insertCmd.Parameters.AddWithValue("@Quantity", quantity);
-//                return insertCmd.ExecuteNonQuery() > 0;
-//            }
-//        }
-//    }
+    public bool AddToCart(Cart item)
+    {
+        using (var conn = _dbUtil.GetOpenConnection())
+        {
+            // Check if item exists
+            string checkQuery = "SELECT COUNT(*) FROM Cart WHERE UserID = @UserID AND BookID = @BookID";
+            var checkCmd = new SqlCommand(checkQuery, conn);
+            checkCmd.Parameters.AddWithValue("@UserID", item.UserID);
+            checkCmd.Parameters.AddWithValue("@BookID", item.BookID);
 
-//    public bool RemoveFromCart(int userId, int bookId)
-//    {
-//        using (SqlConnection conn = DBConnectionUtil.GetConnection())
-//        {
-//            string query = "DELETE FROM Cart WHERE UserID = @UserID AND BookID = @BookID";
-//            SqlCommand cmd = new SqlCommand(query, conn);
-//            cmd.Parameters.AddWithValue("@UserID", userId);
-//            cmd.Parameters.AddWithValue("@BookID", bookId);
-//            return cmd.ExecuteNonQuery() > 0;
-//        }
-//    }
+            int exists = (int)checkCmd.ExecuteScalar();
+            if (exists > 0)
+            {
+                // Already in cart, update quantity
+                return UpdateCartQuantity(item.UserID, item.BookID, item.Quantity);
+            }
+            else
+            {
+                // Add new item
+                string insertQuery = "INSERT INTO Cart (UserID, BookID, Quantity) VALUES (@UserID, @BookID, @Quantity)";
+                var insertCmd = new SqlCommand(insertQuery, conn);
+                insertCmd.Parameters.AddWithValue("@UserID", item.UserID);
+                insertCmd.Parameters.AddWithValue("@BookID", item.BookID);
+                insertCmd.Parameters.AddWithValue("@Quantity", item.Quantity);
 
-//    public List<CartItem> GetCartItemsByUser(int userId)
-//    {
-//        List<CartItem> cartItems = new List<CartItem>();
-//        using (SqlConnection conn = DBConnectionUtil.GetConnection())
-//        {
-//            string query = @"SELECT c.CartID, c.BookID, c.Quantity, c.CreatedAt, b.Title, b.Price
-//                             FROM Cart c
-//                             INNER JOIN Books b ON c.BookID = b.BookID
-//                             WHERE c.UserID = @UserID";
-//            SqlCommand cmd = new SqlCommand(query, conn);
-//            cmd.Parameters.AddWithValue("@UserID", userId);
-//            SqlDataReader reader = cmd.ExecuteReader();
+                return insertCmd.ExecuteNonQuery() > 0;
+            }
+        }
+    }
 
-//            while (reader.Read())
-//            {
-//                cartItems.Add(new CartItem
-//                {
-//                    CartID = (int)reader["CartID"],
-//                    BookID = (int)reader["BookID"],
-//                    Quantity = (int)reader["Quantity"],
-//                    CreatedAt = (DateTime)reader["CreatedAt"],
-//                    BookTitle = reader["Title"].ToString(),
-//                    BookPrice = (decimal)reader["Price"]
-//                });
-//            }
-//        }
-//        return cartItems;
-//    }
+    public bool UpdateCartQuantity(int userId, int bookId, int quantity)
+    {
+        using (var conn = _dbUtil.GetOpenConnection())
+        {
+            string updateQuery = "UPDATE Cart SET Quantity = @Quantity WHERE UserID = @UserID AND BookID = @BookID";
+            var cmd = new SqlCommand(updateQuery, conn);
+            cmd.Parameters.AddWithValue("@Quantity", quantity);
+            cmd.Parameters.AddWithValue("@UserID", userId);
+            cmd.Parameters.AddWithValue("@BookID", bookId);
+
+            return cmd.ExecuteNonQuery() > 0;
+        }
+    }
+
+    public bool RemoveFromCart(int userId, int bookId)
+    {
+        using (var conn = _dbUtil.GetOpenConnection())
+        {
+            string deleteQuery = "DELETE FROM Cart WHERE UserID = @UserID AND BookID = @BookID";
+            var cmd = new SqlCommand(deleteQuery, conn);
+            cmd.Parameters.AddWithValue("@UserID", userId);
+            cmd.Parameters.AddWithValue("@BookID", bookId);
+
+            return cmd.ExecuteNonQuery() > 0;
+        }
+    }
+
+    public List<Cart> GetCartItemsByUser(int userId)
+    {
+        List<Cart> cartItems = new List<Cart>();
+
+        using (var conn = _dbUtil.GetOpenConnection())
+        {
+            string query = @"SELECT c.CartID, c.BookID, c.Quantity, b.Title, b.Price
+                             FROM Cart c
+                             INNER JOIN Books b ON c.BookID = b.BookID
+                             WHERE c.UserID = @UserID";
+
+            var cmd = new SqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@UserID", userId);
+            var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                cartItems.Add(new Cart
+                {
+                    //UserID=(int)reader["UserId"],
+                    CartID = (int)reader["CartID"],
+                    BookID = (int)reader["BookID"],
+                    Quantity = (int)reader["Quantity"],
+                    BookTitle=reader["Title"].ToString(),
+                    Bookprice = (decimal)reader["Price"]
+                });
+            }
+        }
+
+        return cartItems;
+    }
 
     public bool ClearCart(int userId)
     {
-        using (SqlConnection conn = DBConnectionUtil.GetConnection())
+        using (var conn = _dbUtil.GetOpenConnection())
         {
             string query = "DELETE FROM Cart WHERE UserID = @UserID";
-            SqlCommand cmd = new SqlCommand(query, conn);
+            var cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@UserID", userId);
             return cmd.ExecuteNonQuery() > 0;
         }

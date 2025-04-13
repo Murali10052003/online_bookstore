@@ -10,7 +10,7 @@ namespace onlineBookStore.DAO.Interfaces
     public interface IBookDAO
     {
         List<Book> GetBooksByGenre(int genreId);
-        List<Book> SearchBooksByTitle(string keyword);
+       // List<Book> SearchBooksByTitle(string keyword);
         Book GetBookById(int bookId);//check
         List<Book> GetAllBooks();//check
          // Admin

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace onlineBookStore.Exceptions
 {
-    internal class InvalidCredentialsException
+    public class InvalidCredentialsException
     {
+         public InvalidCredentialsException(string message) : base(message) { }   
     }
 }

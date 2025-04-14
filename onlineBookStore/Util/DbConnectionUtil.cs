@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using onlineBookStore.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,17 @@ namespace onlineBookStore.Util
         { _connectionString = connectionString; }
         public SqlConnection GetOpenConnection()
         {
-            SqlConnection conn = new SqlConnection(_connectionString);
-            conn.Open();
-            return conn;
+            try
+            {
+                SqlConnection conn = new SqlConnection(_connectionString);
+                conn.Open();
+                return conn;
+
+            }
+            catch(Exception ex) { 
+                throw new DatabaseConnectionException("Unable to Connect to the database",ex);
+            }
+            
         }
     }
 }

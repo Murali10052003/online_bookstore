@@ -95,7 +95,7 @@ class Program
                                     Console.WriteLine("\nBooks in selected genre:");
                                     foreach (var b in books)
                                     {
-                                        Console.WriteLine($"{b.BookID}. {b.Title} by {b.Author} - ₹{b.Price} (Stock: {b.Stock})");
+                                        Console.WriteLine($"{b.BookID}. {b.Title} by {b.Author} ");
                                     }
 
                                     Console.Write("Enter Book ID to view details: ");
@@ -103,7 +103,7 @@ class Program
 
                                     var selectedBook = bookDAO.GetBookById(bookId);
                                     Console.WriteLine($"\n{selectedBook.Title} by {selectedBook.Author}");
-                                    Console.WriteLine($"Price: ₹{selectedBook.Price} | Stock: {selectedBook.Stock}");
+                                    Console.WriteLine($"Price: {selectedBook.Price} | Stock: {selectedBook.Stock}");
 
                                     Console.WriteLine("\n1. Add to Cart\n2. Go Back");
                                     Console.Write("Choose: ");
@@ -236,8 +236,9 @@ class Program
                                                 UserID = currentUser.UserID,
                                                 BookID = revBookId,
                                                 Rating = rating,
-                                                Comment = comment,
-                                                ReviewDate = DateTime.Now
+                                                ReviewText = comment,
+                                                CreatedAt = DateTime.Now,
+
                                             };
 
                                             bool success = reviewDAO.AddReview(newReview);
@@ -252,7 +253,7 @@ class Program
                                             Console.WriteLine($"\nReviews for Book ID {bookToView}:");
                                             foreach (var r in reviews)
                                             {
-                                                Console.WriteLine($"Rating: {r.Rating}/5 | {r.Comment} (By User ID: {r.UserID} on {r.ReviewDate.ToShortDateString()})");
+                                                Console.WriteLine($"Rating: {r.Rating}/5 | {r.ReviewText} (By User name: {r.Username} on {r.CreatedAt.ToShortDateString()})");
                                             }
                                             break;
 

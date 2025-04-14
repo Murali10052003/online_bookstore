@@ -18,13 +18,14 @@ public class ReviewImpl : IReviewDAO
     {
         using (var conn = _dbUtil.GetOpenConnection())
         {
-            string query = "INSERT INTO Reviews (UserID, BookID, Rating, ReviewText) VALUES (@UserID, @BookID, @Rating, @ReviewText)";
+            string query = "INSERT INTO Reviews (UserID, BookID, Rating, ReviewText,CreatedAt) VALUES (@UserID, @BookID, @Rating, @ReviewText,@CreatedAt)";
             var cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@UserID", review.UserID);
             cmd.Parameters.AddWithValue("@BookID", review.BookID);
             cmd.Parameters.AddWithValue("@Rating", review.Rating);
             cmd.Parameters.AddWithValue("@ReviewText", review.ReviewText ?? "");
-
+            cmd.Parameters.AddWithValue("@CreatedAt", DateTime.Now);
+            //cmd.Parameters.AddWithValue("@Username", review.Username);
             return cmd.ExecuteNonQuery() > 0;
         }
     }

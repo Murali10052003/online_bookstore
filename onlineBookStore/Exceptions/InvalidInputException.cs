@@ -8,5 +8,6 @@ namespace onlineBookStore.Exceptions
 {
     internal class InvalidInputException
     {
+
     }
 }

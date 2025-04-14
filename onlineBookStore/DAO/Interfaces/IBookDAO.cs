@@ -13,6 +13,6 @@ namespace onlineBookStore.DAO.Interfaces
        // List<Book> SearchBooksByTitle(string keyword);
         Book GetBookById(int bookId);//check
         List<Book> GetAllBooks();//check
-         // Admin
+         
     }
 }

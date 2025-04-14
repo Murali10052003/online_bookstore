@@ -16,8 +16,8 @@ namespace onlineBookStore.Entity
         public DateTime CreatedAt { get; set; }
 
         public string Username { get; set; }
-        public string Comment { get;  set; }
-        public DateTime ReviewDate { get;  set; }
+       // public string Comment { get; set; }
+       // public DateTime ReviewDate { get; set; }
     }
 
 }

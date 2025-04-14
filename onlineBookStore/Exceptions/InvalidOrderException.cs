@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace onlineBookStore.Exceptions
 {
-    internal class InvalidOrderException
+    public class InvalidOrderException:Exception
     {
+        public InvalidOrderException(string message) : base(message) { }
     }
 }
